@@ -8,3 +8,7 @@ const driver: WebDriver = new Builder()
   .build();
 
 const page = new Tesla(driver);
+
+afterAll(async () => {
+  await driver.quit();
+});
