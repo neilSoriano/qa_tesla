@@ -33,14 +33,19 @@ describe("Financing a Tesla", () => {
     await driver.sleep(2000);
     // await page.takeScreenshot("screenshots/lease_details");
 
-    let amtDue = await parseInt(await page.getAmountDue());
-    await driver.sleep(2000);
+    let amtDue = await page.getAmountDue();
+    let leasePay = await page.getLeasePayment();
+    let leaseAmount = await page.getLeaseAmount();
+    let downpayment = await page.getDownpayment();
 
-    let leaseAmt = await page.getLeasePayment();
-    await driver.sleep(2000);
+    let acqFee = 695;
 
     expect(amtDue).toEqual(12774);
-    expect(leaseAmt).toBe("$1,079 /mo")
+    expect(leasePay).toBe("$1,079 /mo");
+    expect(leaseAmount).toEqual(1079);
+    expect(downpayment).toEqual(11000);
+
+    expect(downpayment + leaseAmount + acqFee).toEqual(amtDue);
 
 
   });

@@ -63,13 +63,13 @@ export class ModelS {
      * @returns the price of the Tesla
      * @example await page.getPrice(page.basePrice);
      */
-    async getPrice(elementBy: By) {
+    async getPrice(elementBy: By) : Promise<number> {
         await this.driver.wait(until.elementLocated(elementBy));
-        let price = await (await this.driver.findElement(elementBy)
+        let price = await parseInt(await (await this.driver.findElement(elementBy)
         .getText())
         .split(",")
         .join("")
-        .substr(1, 6);
+        .substr(1, 6));
         return price;
     }
 
@@ -87,21 +87,36 @@ export class ModelS {
     }
 
     /**
+     * This will pull the attribute named "value" from the downpayment field.
+     * It then gets converted to an int after removing the "$" and ",".
+     * @returns the amount of the downpayment
+     */
+    async getDownpayment() : Promise<number> {
+      await this.driver.wait(until.elementLocated(this.downpayment));
+      let amount = await parseInt(await (await this.driver.findElement(this.downpayment)
+      .getAttribute("value"))
+      .split(",")
+      .join("")
+      .substr(1,6));
+      return amount;
+    }
+
+    /**
      * This will get the value of the attribute to get the amount due at signing. 
      * Before returning, the string is split at the comma and joined with an empty
-     * space. The "$" will not be included in the string.
+     * space. The "$" will not be included in the string and then the string converts to an int.
      * The amount due at signing is composed of the downpayment, 
      * first month's payment and an acquisition fee of $695.
      * @returns the amount due at signing
      * @example await page.getAmountDue();
      */
-    async getAmountDue() {
+    async getAmountDue() : Promise<number> {
       await this.driver.wait(until.elementLocated(this.amountSigning));
-      let amount = await (await this.driver.findElement(this.amountSigning)
+      let amount = await parseInt(await (await this.driver.findElement(this.amountSigning)
       .getAttribute("value"))
       .split(",")
       .join("")
-      .substr(1,6);
+      .substr(1,6));
       return amount;
 
     }
@@ -112,10 +127,24 @@ export class ModelS {
      * like this example: "$1045 / mo"
      * @example await page.getLeasePayment();
      */
-    async getLeasePayment() {
+    async getLeasePayment() : Promise<string> {
       await this.driver.wait(until.elementLocated(this.leasePayment));
       let amount = await (await this.driver.findElement(this.leasePayment)
+      .getText());
+      return amount;
+    }
+
+    /**
+     * This will get the text of the lease payment and convert it into an int.
+     * @returns the amount of the lease payment.
+     */
+    async getLeaseAmount() : Promise<number> {
+      await this.driver.wait(until.elementLocated(this.leasePayment));
+      let amount = await parseInt(await (await this.driver.findElement(this.leasePayment)
       .getText())
+      .split(",")
+      .join("")
+      .substr(1,4));
       return amount;
     }
 
