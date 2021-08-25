@@ -65,17 +65,17 @@ export class ModelX {
      * This will get the price of the Tesla by getting the string, replacing the comma with 
      * an empty space to connect the numbers. The substring will remove the '$' in the string
      * so only numbers will be returned.
-     * @param elementBy 
+     * @param elementBy
      * @returns the price of the Tesla
      * @example await page.getPrice(page.basePrice);
      */
-    async getPrice(elementBy: By) {
+     async getPrice(elementBy: By) : Promise<number> {
         await this.driver.wait(until.elementLocated(elementBy));
-        let price = await (await this.driver.findElement(elementBy)
+        let price = await parseInt(await (await this.driver.findElement(elementBy)
         .getText())
         .split(",")
         .join("")
-        .substr(1, 6);
+        .substr(1, 6));
         return price;
     }
 
