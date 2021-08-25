@@ -24,7 +24,7 @@ describe("Tesla Model X Customization", () => {
     await driver.sleep(1000);
     // await page.takeScreenshot("screenshots/modelX_base_price");
   
-    let baseModelPrice = await parseInt(await page.getPrice(page.basePrice));
+    let baseModelPrice = await page.getPrice(page.basePrice);
     console.log(baseModelPrice);
   
     await page.click(page.plaid);
@@ -70,7 +70,7 @@ describe("Tesla Model X Customization", () => {
     await driver.sleep(2000);
     // await page.takeScreenshot("screenshots/modelX_final_price");
   
-    let finalModelPrice = await parseInt(await page.getPrice(page.finalPrice));
+    let finalModelPrice = await page.getPrice(page.finalPrice);
     console.log(finalModelPrice);
 
     // expect(99990).toBeLessThan(142490)
