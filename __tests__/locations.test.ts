@@ -54,6 +54,8 @@ describe("Finding Tesla locations near me", () => {
       .click()
       .perform();
 
+    await driver.sleep(3000);
+
     // await page.takeScreenshot("screenshots/filter_bug");
 
     await page.click(page.bodyShops);
